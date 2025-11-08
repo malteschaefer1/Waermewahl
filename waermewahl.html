@@ -300,12 +300,12 @@
       display: grid;
       gap: 1.25rem;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      align-items: stretch;
     }
 
     canvas {
+      display: block;
       width: 100%;
-      max-width: 100%;
-      aspect-ratio: 16 / 9;
     }
 
     .toolbar {
@@ -545,6 +545,12 @@
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 1rem;
+      min-height: 18rem;
+      height: clamp(260px, 32vw, 420px);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      overflow: hidden;
     }
 
     .chart-container h3 {
@@ -556,6 +562,12 @@
       gap: 0.5rem;
     }
 
+    .chart-container canvas {
+      flex: 1 1 auto;
+      width: 100% !important;
+      height: 100% !important;
+    }
+
     .chart-legend-hint {
       font-size: 0.8rem;
       color: var(--text-muted);
@@ -563,8 +575,8 @@
     }
 
     .mini-chart {
-      aspect-ratio: 3 / 2;
-      max-height: 180px;
+      height: 200px !important;
+      width: 100% !important;
     }
 
     .flex-between {
@@ -1240,6 +1252,18 @@
       heatDemandInput: document.getElementById("heatDemandValue"),
       flowTempButtons: document.querySelectorAll('[data-temp]'),
       flowTempInput: document.getElementById("flowTemp"),
+      backupShare: document.getElementById("backupShare"),
+      horizon: document.getElementById("horizon"),
+      discountRate: document.getElementById("discountRate"),
+      capexOil: document.getElementById("capexOil"),
+      capexWp: document.getElementById("capexWp"),
+      maintenanceOil: document.getElementById("maintenanceOil"),
+      maintenanceWp: document.getElementById("maintenanceWp"),
+      lifetimeOilBoiler: document.getElementById("lifetimeOilBoiler"),
+      lifetimeOilTank: document.getElementById("lifetimeOilTank"),
+      lifetimeWpOutdoor: document.getElementById("lifetimeWpOutdoor"),
+      lifetimeWpPump: document.getElementById("lifetimeWpPump"),
+      oilEfficiency: document.getElementById("oilEfficiency"),
       copInput: document.getElementById("copValue"),
       subsidyToggle: document.getElementById("subsidyToggle"),
       fundingInfo: document.getElementById("fundingInfo"),
