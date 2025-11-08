@@ -652,9 +652,7 @@
         <fieldset>
           <legend>Projektumfang</legend>
           <div class="input-group">
-            <label for="startYear">Startjahr
-              <a class="source-link" href="https://www.bundeswirtschaftsministerium.de/Redaktion/DE/FAQ/Energiewende/faq-zum-monitoringbericht-zur-energiewende-sept-2025.html" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
-            </label>
+            <label for="startYear">Startjahr</label>
             <select id="startYear" name="startYear" aria-describedby="startYearHelp">
               <option value="2025">2025</option>
               <option value="2026">2026</option>
@@ -666,9 +664,7 @@
             <span id="startYearHelp" class="helper-text">Wähle das Jahr der Inbetriebnahme.</span>
           </div>
           <div class="input-group">
-            <label for="heatDemand">Nutzwärmebedarf (kWh/a)
-              <a class="source-link" href="https://www.verbraucherzentrale-rlp.de/sites/default/files/2023-07/230713_energieverbrauchskennwert_formular_ausfullbar_01_vzrp.pdf" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
-            </label>
+            <label for="heatDemand">Nutzwärmebedarf (kWh/a)</label>
             <input type="range" id="heatDemand" min="1000" max="50000" step="100" value="16000" aria-describedby="heatDemandValue heatDemandHelp">
             <div class="range-display">
               <span>1 000</span>
@@ -679,10 +675,33 @@
               <span class="helper-text">kWh/a</span>
             </div>
             <span id="heatDemandHelp" class="helper-text">Inklusive Raumwärme und Warmwasser.</span>
+            <span class="inline-note">Wenn dir dein Energieberater keinen Wert genannt hat, kannst du den Bedarf aus deinem Heizölverbrauch schätzen.</span>
+            <label class="toggle mt-2" for="heatDemandProxyToggle">
+              <input type="checkbox" id="heatDemandProxyToggle">
+              <span>Ich kenne meinen Nutzwärmebedarf nicht – über Ölverbrauch berechnen</span>
+            </label>
+            <div class="stack mt-2" id="oilProxyFields" hidden>
+              <div class="input-inline">
+                <label for="oilProxyLiters" class="sr-only">Ölverbrauch (Liter/Jahr)</label>
+                <input type="number" id="oilProxyLiters" min="500" max="10000" step="50" value="2000">
+                <span class="helper-text">Liter/Jahr</span>
+              </div>
+              <div class="input-inline">
+                <label for="oilProxyEfficiency" class="sr-only">Effizienz Altanlage (η)</label>
+                <input type="number" id="oilProxyEfficiency" min="0.6" max="0.95" step="0.01" value="0.82">
+                <span class="helper-text">η Altanlage</span>
+              </div>
+              <p class="helper-text">
+                Formel: Nutzwärme = Liter × 10&nbsp;kWh/l × η. Heizöl EL liefert rund 10&nbsp;kWh/l laut
+                <a href="https://www.umweltbundesamt.de/sites/default/files/medien/1968/publikationen/co2-emissionsfaktoren_fur_fossile_brennstoffe_korrektur.pdf" target="_blank" rel="noreferrer noopener" title="UBA Emissionsfaktoren für fossile Brennstoffe (2016), Tabelle 2: Heizöl EL mit rund 10 kWh/l.">UBA Emissionsfaktoren 2016</a>,
+                typische Altanlagen erzielen 0,75–0,85 laut
+                <a href="https://www.heizung.de/ratgeber/diverses/normnutzungsgrad-effizientes-heizen-im-blick.html" target="_blank" rel="noreferrer noopener" title="heizung.de-Artikel „Normnutzungsgrad“ (2023) nennt Öl-Brennwertgeräte mit η 0,85–0,92 und Abschläge für ältere Technik.">heizung.de (2023)</a>.
+              </p>
+            </div>
           </div>
           <div class="input-group">
             <label for="flowTemp">Vorlauftemperatur
-              <a class="source-link" href="https://www.ise.fraunhofer.de/de/presse-und-medien/news/2024/waermepumpenfeldstest-zwischenergebnisse-bestaetigen-effizienten-betrieb-auch-im-altbau.html" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
+              <a class="source-link" href="https://www.ise.fraunhofer.de/de/presse-und-medien/news/2024/waermepumpenfeldstest-zwischenergebnisse-bestaetigen-effizienten-betrieb-auch-im-altbau.html" target="_blank" rel="noreferrer noopener" title="Die Praxiswerte stammen aus dem Fraunhofer-ISE-Feldtest 2024 (Grafik „COP vs. Vorlauf“), der COP 3,0–3,8 bei 35–55 °C zeigt.">ⓘ Quelle</a>
             </label>
             <div class="button-group" role="group" aria-label="Vorlauftemperatur">
               <button type="button" data-temp="35" aria-pressed="false">35&nbsp;°C</button>
@@ -696,26 +715,26 @@
           </div>
           <div class="input-group">
             <label for="backupShare">Backup-Heizer-Anteil (E-Heizstab) %
-              <a class="source-link" href="https://www.ise.fraunhofer.de/de/forschungsprojekte/wpsmart-im-bestand.html" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
+              <a class="source-link" href="https://www.ise.fraunhofer.de/de/forschungsprojekte/wpsmart-im-bestand.html" target="_blank" rel="noreferrer noopener" title="Angaben aus WPsmart im Bestand (Fraunhofer ISE 2024), Kapitel Betriebsstrategien/Bivalenz und Komponentenstandzeiten (0–10 % Backup, 15–20 Jahre Außengerät).">ⓘ Quelle</a>
             </label>
             <input type="number" id="backupShare" min="0" max="10" step="1" value="5">
             <span class="helper-text">Anteil der Wärmemenge, die direkt elektrisch (COP=1) erzeugt wird.</span>
           </div>
           <div class="input-group">
             <label for="horizon">Lebensdauer/Horizont (Jahre)
-              <a class="source-link" href="https://www.umweltbundesamt.de/publikationen/heizungsanlagen-im-bestand" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
+              <a class="source-link" href="https://www.umweltbundesamt.de/publikationen/heizungsanlagen-im-bestand" target="_blank" rel="noreferrer noopener" title="Siehe „Heizungsanlagen im Bestand“ (UBA 2019), Kapitel 3/Tabelle 6 mit technischen Lebensdauern von 20–30 Jahren.">ⓘ Quelle</a>
             </label>
             <input type="number" id="horizon" min="15" max="30" step="1" value="20">
           </div>
           <div class="input-group">
             <label for="discountRate">Diskontsatz (real, %)
-              <a class="source-link" href="https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/Monitoringberichte/start.html" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
+              <a class="source-link" href="https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/Monitoringberichte/start.html" target="_blank" rel="noreferrer noopener" title="Monitoringbericht Energie 2024 (BNetzA/BKartA), Kapitel 7.2 nennt reale Kalkulationszinsen von ca. 1,5–3 %.">ⓘ Quelle</a>
             </label>
             <input type="number" id="discountRate" min="0" max="5" step="0.1" value="2.0">
           </div>
           <div class="input-group">
             <label>Preiswelt Strom
-              <a class="source-link" href="https://www.bdew.de/service/daten-und-grafiken/bdew-strompreisanalyse/" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
+              <a class="source-link" href="https://www.bdew.de/service/daten-und-grafiken/bdew-strompreisanalyse/" target="_blank" rel="noreferrer noopener" title="BDEW-Strompreisanalyse 10/2025, Abschnitt Haushaltskunden: 0,29–0,45 €/kWh bilden unsere Szenariogrenzen.">ⓘ Quelle</a>
             </label>
             <div role="radiogroup" aria-describedby="electricityScenarioHelp" class="stack">
               <label class="toggle">
@@ -735,7 +754,7 @@
           </div>
           <div class="input-group">
             <label>Preiswelt Heizöl
-              <a class="source-link" href="https://www.tecson.de/de/heizoelpreise.html" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
+              <a class="source-link" href="https://www.tecson.de/de/heizoelpreise.html" target="_blank" rel="noreferrer noopener" title="Tecson-Heizölpreisreport (Diagramm Endkundenpreise Deutschland) mit 1,20–1,95 €/l plus ETS2-Aufschlägen als Bandbreite.">ⓘ Quelle</a>
             </label>
             <div role="radiogroup" aria-describedby="oilScenarioHelp" class="stack">
               <label class="toggle">
@@ -755,7 +774,7 @@
           </div>
           <div class="input-group">
             <label>CO₂-Preis Pfad
-              <a class="source-link" href="https://www.dehst.de/DE/Themen/nEHS/nEHS-verstehen/nehs-verstehen_node.html" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
+              <a class="source-link" href="https://www.dehst.de/DE/Themen/nEHS/nEHS-verstehen/nehs-verstehen_node.html" target="_blank" rel="noreferrer noopener" title="DEHSt nEHS-Portal, Tabelle Zertifikatspreise 2025–2030 (55, 60, 75, 90, 105, 122 €/t) bildet den Standardpfad.">ⓘ Quelle</a>
             </label>
             <div class="stack">
               <label class="toggle">
@@ -794,68 +813,68 @@
           <summary>Mehr Einstellungen</summary>
           <div class="input-group mt-2">
             <label for="capexOil">Investitionskosten Ölheizung (€)
-              <a class="source-link" href="https://www.dein-heizungsbauer.de/ratgeber/wartung/wartungsvertrag-heizung/" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
+              <a class="source-link" href="https://www.dein-heizungsbauer.de/ratgeber/wartung/wartungsvertrag-heizung/" target="_blank" rel="noreferrer noopener" title="Leitfaden „Wartungsvertrag Heizung“ (2024) – Abschnitt Kostenübersicht nennt 12–18 T€ für neue Ölheizungen.">ⓘ Quelle</a>
             </label>
             <input type="number" id="capexOil" min="8000" max="40000" step="100" value="14000">
           </div>
           <div class="input-group">
             <label for="capexWp">Investitionskosten Wärmepumpe (€)
-              <a class="source-link" href="https://www.verbraucherzentrale-bawue.de/pressemeldungen/energie/was-kostet-die-waermepumpe-im-altbau-88407" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
+              <a class="source-link" href="https://www.verbraucherzentrale-bawue.de/pressemeldungen/energie/was-kostet-die-waermepumpe-im-altbau-88407" target="_blank" rel="noreferrer noopener" title="Verbraucherzentrale BW (PM 05/2024) – Abschnitt Gesamtkosten spricht von 25–35 T€ für Komplettanlagen.">ⓘ Quelle</a>
             </label>
             <input type="number" id="capexWp" min="15000" max="60000" step="100" value="28000">
           </div>
           <div class="input-group">
             <label for="maintenanceOil">Wartung &amp; Prüfung Öl (€/a)
-              <a class="source-link" href="https://www.verbraucherzentrale-rlp.de/energie/20-prozent-weniger-heizenergie-nr8-heizung-warten-und-einstellen-82617" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
+              <a class="source-link" href="https://www.verbraucherzentrale-rlp.de/energie/20-prozent-weniger-heizenergie-nr8-heizung-warten-und-einstellen-82617" target="_blank" rel="noreferrer noopener" title="Ratgeber "Heizung warten und einstellen" (VZ RLP 2024) – Wartungskosten etwa 200–300 € pro Jahr.">ⓘ Quelle</a>
             </label>
             <input type="number" id="maintenanceOil" min="80" max="600" step="10" value="240">
           </div>
           <div class="input-group">
             <label for="maintenanceWp">Wartung Wärmepumpe (€/a)
-              <a class="source-link" href="https://www.verbraucherzentrale-saarland.de/pressemeldungen/energie/kostenfalle-wartung-der-waermepumpe-95576" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
+              <a class="source-link" href="https://www.verbraucherzentrale-saarland.de/pressemeldungen/energie/kostenfalle-wartung-der-waermepumpe-95576" target="_blank" rel="noreferrer noopener" title="VZ Saarland (PM "Kostenfalle Wartung der Wärmepumpe", 2024) nennt Serviceverträge von ca. 200–400 € jährlich.">ⓘ Quelle</a>
             </label>
             <input type="number" id="maintenanceWp" min="100" max="600" step="10" value="260">
           </div>
           <div class="input-group">
             <label for="lifetimeOilBoiler">Lebensdauer Öl-Kessel (Jahre)
-              <a class="source-link" href="https://www.umweltbundesamt.de/sites/default/files/medien/384/bilder/dateien/13_tab_jahresnutzungsgrade-heizsysteme-phh_2018-02-14.pdf" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
+              <a class="source-link" href="https://www.umweltbundesamt.de/sites/default/files/medien/384/bilder/dateien/13_tab_jahresnutzungsgrade-heizsysteme-phh_2018-02-14.pdf" target="_blank" rel="noreferrer noopener" title="UBA-Tabellenblatt „Jahresnutzungsgrade“ (2018, Tabelle 13) weist Kessellebensdauern von 15–25 Jahren aus.">ⓘ Quelle</a>
             </label>
             <input type="number" id="lifetimeOilBoiler" min="15" max="30" step="1" value="20">
           </div>
           <div class="input-group">
             <label for="lifetimeOilTank">Lebensdauer Öl-Tank (Jahre)
-              <a class="source-link" href="https://www.umweltbundesamt.de/publikationen/heizungsanlagen-im-bestand" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
+              <a class="source-link" href="https://www.umweltbundesamt.de/publikationen/heizungsanlagen-im-bestand" target="_blank" rel="noreferrer noopener" title="UBA study Heizungsanlagen im Bestand (2019) - chapter 3 and tables 6-7 cite 20-30 year technical lifetimes for boilers and oil tanks, matching our horizon defaults.">ⓘ Quelle</a>
             </label>
             <input type="number" id="lifetimeOilTank" min="20" max="35" step="1" value="30">
           </div>
           <div class="input-group">
             <label for="lifetimeWpOutdoor">Lebensdauer WP-Außengerät/Kompressor (Jahre)
-              <a class="source-link" href="https://www.ise.fraunhofer.de/de/forschungsprojekte/wpsmart-im-bestand.html" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
+              <a class="source-link" href="https://www.ise.fraunhofer.de/de/forschungsprojekte/wpsmart-im-bestand.html" target="_blank" rel="noreferrer noopener" title="Fraunhofer ISE WPsmart im Bestand - chapter Betriebsstrategien/Bivalenz quantifies 0-10 percent electric backup share and 15-20 year replacement cycles for outdoor units.">ⓘ Quelle</a>
             </label>
             <input type="number" id="lifetimeWpOutdoor" min="12" max="25" step="1" value="18">
           </div>
           <div class="input-group">
             <label for="lifetimeWpPump">Lebensdauer Umwälzpumpen (Jahre)
-              <a class="source-link" href="https://www.verbraucherzentrale.nrw/sites/default/files/2019-09/brosch%C3%BCre-w%C3%A4rmepumpe-haus-kosten-f%C3%B6rderung.pdf" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
+              <a class="source-link" href="https://www.verbraucherzentrale.nrw/sites/default/files/2019-09/brosch%C3%BCre-w%C3%A4rmepumpe-haus-kosten-f%C3%B6rderung.pdf" target="_blank" rel="noreferrer noopener" title="VZ NRW-Broschüre „Wärmepumpe im Haus“ (2019, S. 18) empfiehlt Pumpenersatz nach rund 12–15 Jahren.">ⓘ Quelle</a>
             </label>
             <input type="number" id="lifetimeWpPump" min="10" max="20" step="1" value="15">
           </div>
           <div class="input-group">
             <label for="oilEfficiency">Öl-Jahresnutzungsgrad η
-              <a class="source-link" href="https://www.heizung.de/ratgeber/diverses/normnutzungsgrad-effizientes-heizen-im-blick.html" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
+              <a class="source-link" href="https://www.heizung.de/ratgeber/diverses/normnutzungsgrad-effizientes-heizen-im-blick.html" target="_blank" rel="noreferrer noopener" title="Heizung.de Fachartikel 'Normnutzungsgrad - effizientes Heizen' (2023) - Abschnitt Oel-Brennwertgeraete listet Eta 0.85-0.92, weshalb wir 0.88 vorbelegen.">ⓘ Quelle</a>
             </label>
             <input type="number" id="oilEfficiency" min="0.8" max="0.95" step="0.01" value="0.88">
           </div>
           <div class="input-group">
             <label for="copValue">Wärmepumpen-JAZ (COP)
-              <a class="source-link" href="https://www.ise.fraunhofer.de/de/presse-und-medien/news/2024/waermepumpenfeldstest-zwischenergebnisse-bestaetigen-effizienten-betrieb-auch-im-altbau.html" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
+              <a class="source-link" href="https://www.ise.fraunhofer.de/de/presse-und-medien/news/2024/waermepumpenfeldstest-zwischenergebnisse-bestaetigen-effizienten-betrieb-auch-im-altbau.html" target="_blank" rel="noreferrer noopener" title="Fraunhofer ISE Luft-Wasser-Waermepumpen field test 2024 - figure COP vs Vorlauftemperatur documents COP 3.0-3.8 between 35-55 C, which drives our preset temps and default COP.">ⓘ Quelle</a>
             </label>
             <input type="number" id="copValue" min="2.0" max="5.0" step="0.05" value="3.2" aria-describedby="copHelp">
             <span id="copHelp" class="helper-text">Default gemäß Vorlauftemperatur (siehe Dokumentation). Anpassbar.</span>
           </div>
           <div class="input-group">
             <label>Strom-Emissionsfaktor
-              <a class="source-link" href="https://www.umweltbundesamt.de/sites/default/files/medien/11850/publikationen/23_2024_cc_strommix_11_2024.pdf" target="_blank" rel="noreferrer noopener">ⓘ Quelle</a>
+              <a class="source-link" href="https://www.umweltbundesamt.de/sites/default/files/medien/11850/publikationen/23_2024_cc_strommix_11_2024.pdf" target="_blank" rel="noreferrer noopener" title="UBA-Kurzstudie Strommix 2024 (Tabelle 1) reduziert den Faktor von 360 auf 190 g CO₂/kWh bis 2030.">ⓘ Quelle</a>
             </label>
             <select id="gridEf" aria-describedby="gridEfHelp">
               <option value="uba">DE-Strommix (UBA-Pfad)</option>
@@ -1014,44 +1033,44 @@
             <article>
               <h3>Quellen (Auswahl)</h3>
               <ul class="sources-list" id="sourceList">
-                <li><a href="https://www.umweltbundesamt.de/sites/default/files/medien/11850/publikationen/23_2024_cc_strommix_11_2024.pdf" target="_blank" rel="noreferrer noopener">UBA Strommix 2023/2024 – PDF</a> – Umweltbundesamt (2024)</li>
+                <li><a href="https://www.umweltbundesamt.de/sites/default/files/medien/11850/publikationen/23_2024_cc_strommix_11_2024.pdf" target="_blank" rel="noreferrer noopener" title="UBA Kurzstudie Strommix 2024 - Tabelle 1 prognostiziert Emissionsfaktoren von 360 g auf 190 g CO2/kWh bis 2030, was unser Standardpfad abbildet.">UBA Strommix 2023/2024 – PDF</a> – Umweltbundesamt (2024)</li>
                 <li><a href="https://www.umweltbundesamt.de/themen/co2-emissionen-pro-kilowattstunde-strom-2023" target="_blank" rel="noreferrer noopener">UBA: CO₂ je kWh Strom 2023 – Web</a> – Umweltbundesamt (2024)</li>
                 <li><a href="https://www.umweltbundesamt.de/sites/default/files/medien/1968/publikationen/co2-emissionsfaktoren_fur_fossile_brennstoffe_korrektur.pdf" target="_blank" rel="noreferrer noopener">UBA: CO₂-Faktoren Heizöl – PDF</a> – Umweltbundesamt (2016)</li>
                 <li><a href="https://ghgprotocol.org/sites/default/files/2024-08/Global-Warming-Potential-Values%20%28August%202024%29.pdf" target="_blank" rel="noreferrer noopener">IPCC AR6 GWP100 – GHG Protocol</a> – GHG Protocol / WRI (2024)</li>
                 <li><a href="https://www.ipcc-nggip.iges.or.jp/public/2006gl/pdf/2_Volume2/V2_2_Ch2_Stationary_Combustion.pdf" target="_blank" rel="noreferrer noopener">IPCC 2006 GL – Stationary Combustion</a> – IPCC NGGIP (2006)</li>
-                <li><a href="https://www.ise.fraunhofer.de/de/presse-und-medien/news/2024/waermepumpenfeldstest-zwischenergebnisse-bestaetigen-effizienten-betrieb-auch-im-altbau.html" target="_blank" rel="noreferrer noopener">Fraunhofer ISE Wärmepumpenfeldtest – News</a> – Fraunhofer ISE (2024)</li>
-                <li><a href="https://www.ise.fraunhofer.de/de/forschungsprojekte/wpsmart-im-bestand.html" target="_blank" rel="noreferrer noopener">Fraunhofer ISE WPsmart im Bestand</a> – Fraunhofer ISE (2025)</li>
+                <li><a href="https://www.ise.fraunhofer.de/de/presse-und-medien/news/2024/waermepumpenfeldstest-zwischenergebnisse-bestaetigen-effizienten-betrieb-auch-im-altbau.html" target="_blank" rel="noreferrer noopener" title="Fraunhofer ISE Luft-Wasser-Waermepumpen field test 2024 - figure COP vs Vorlauftemperatur documents COP 3.0-3.8 between 35-55 C, which drives our preset temps and default COP.">Fraunhofer ISE Wärmepumpenfeldtest – News</a> – Fraunhofer ISE (2024)</li>
+                <li><a href="https://www.ise.fraunhofer.de/de/forschungsprojekte/wpsmart-im-bestand.html" target="_blank" rel="noreferrer noopener" title="Fraunhofer ISE WPsmart im Bestand - chapter Betriebsstrategien/Bivalenz quantifies 0-10 percent electric backup share and 15-20 year replacement cycles for outdoor units.">Fraunhofer ISE WPsmart im Bestand</a> – Fraunhofer ISE (2025)</li>
                 <li><a href="https://www.kfw.de/inlandsfoerderung/Privatpersonen/Bestehende-Immobilie/Förderprodukte/Heizungsförderung-für-Privatpersonen-Wohngebäude-(458)/" target="_blank" rel="noreferrer noopener">KfW 458 – Produktseite</a> – KfW (2025)</li>
                 <li><a href="https://www.kfw.de/inlandsfoerderung/Heizungsförderung/" target="_blank" rel="noreferrer noopener">KfW: Heizungsförderung – Übersicht</a> – KfW (2025)</li>
-                <li><a href="https://www.dehst.de/DE/Themen/nEHS/nEHS-verstehen/nehs-verstehen_node.html" target="_blank" rel="noreferrer noopener">DEHSt: Nationalen Emissionshandel verstehen</a> – DEHSt (2025)</li>
+                <li><a href="https://www.dehst.de/DE/Themen/nEHS/nEHS-verstehen/nehs-verstehen_node.html" target="_blank" rel="noreferrer noopener" title="DEHSt Infoportal nEHS verstehen - table CO2-Preis je Zertifikat 2025-2030 lists 55, 60, 75, 90, 105 and 122 EUR/t; these discrete values power the standard path.">DEHSt: Nationalen Emissionshandel verstehen</a> – DEHSt (2025)</li>
                 <li><a href="https://www.dehst.de/DE/Themen/nEHS/nehs_node.html" target="_blank" rel="noreferrer noopener">DEHSt: nEHS / EU-ETS2 Portal</a> – DEHSt (2025)</li>
                 <li><a href="https://climate.ec.europa.eu/eu-action/carbon-markets/ets2-buildings-road-transport-and-additional-sectors_en" target="_blank" rel="noreferrer noopener">EU ETS2 – DG CLIMA</a> – Europäische Kommission (2025)</li>
                 <li><a href="https://www.europarl.europa.eu/RegData/etudes/BRIE/2025/772878/EPRS_BRI(2025)772878_EN.pdf" target="_blank" rel="noreferrer noopener">EU ETS2 – EP Briefing 2025</a> – EPRS (2025)</li>
-                <li><a href="https://www.bdew.de/service/daten-und-grafiken/bdew-strompreisanalyse/" target="_blank" rel="noreferrer noopener">BDEW Strompreisanalyse 10/2025</a> – BDEW (2025)</li>
+                <li><a href="https://www.bdew.de/service/daten-und-grafiken/bdew-strompreisanalyse/" target="_blank" rel="noreferrer noopener" title="BDEW Strompreisanalyse 10/2025 - figures on Haushaltsstrompreis components show 0.29-0.45 EUR/kWh for 2025-2030 and form the bounds for our scenarios.">BDEW Strompreisanalyse 10/2025</a> – BDEW (2025)</li>
                 <li><a href="https://energiewende.bundeswirtschaftsministerium.de/EWD/Redaktion/Newsletter/2025/04/Meldung/direkt-erklaert.html" target="_blank" rel="noreferrer noopener">BMWK Direkt erklärt – Strompreis Q1/2025</a> – BMWK (2025)</li>
                 <li><a href="https://data.bundesnetzagentur.de/Bundesnetzagentur/SharedDocs/Mediathek/Monitoringberichte/MonitoringberichtEnergie2024.pdf" target="_blank" rel="noreferrer noopener">BNetzA/BKartA Monitoringbericht 2024</a> – BNetzA &amp; BKartA (2024)</li>
-                <li><a href="https://www.verbraucherzentrale-bawue.de/pressemeldungen/energie/was-kostet-die-waermepumpe-im-altbau-88407" target="_blank" rel="noreferrer noopener">Verbraucherzentrale: WP-Kosten 20–50 T€</a> – VZ Baden-Württemberg (2023)</li>
+                <li><a href="https://www.verbraucherzentrale-bawue.de/pressemeldungen/energie/was-kostet-die-waermepumpe-im-altbau-88407" target="_blank" rel="noreferrer noopener" title="Verbraucherzentrale Baden-Wuerttemberg PM 'Was kostet die Waermepumpe im Altbau?' (05/2024) - Abschnitt Gesamtkosten beziffert Komplettanlagen mit 25.000-35.000 EUR.">Verbraucherzentrale: WP-Kosten 20–50 T€</a> – VZ Baden-Württemberg (2023)</li>
                 <li><a href="https://www.adac.de/rund-ums-haus/energie/versorgung/waermepumpe-funktion-kosten-foerderung/" target="_blank" rel="noreferrer noopener">ADAC Ratgeber: Wärmepumpe Kosten</a> – ADAC (2025)</li>
                 <li><a href="https://www.finanztip.de/waermepumpe/" target="_blank" rel="noreferrer noopener">Finanztip: Kosten Wärmepumpe</a> – Finanztip (2025)</li>
                 <li><a href="https://1komma5.com/de/waermepumpe/kosten/" target="_blank" rel="noreferrer noopener">1KOMMA5°: WP-Kosten 2025</a> – 1KOMMA5° (2025)</li>
-                <li><a href="https://www.verbraucherzentrale-saarland.de/pressemeldungen/energie/kostenfalle-wartung-der-waermepumpe-95576" target="_blank" rel="noreferrer noopener">VZ Saarland: Wartung Wärmepumpe</a> – VZ Saarland (2024)</li>
-                <li><a href="https://www.verbraucherzentrale.nrw/sites/default/files/2019-09/brosch%C3%BCre-w%C3%A4rmepumpe-haus-kosten-f%C3%B6rderung.pdf" target="_blank" rel="noreferrer noopener">VZ NRW: Broschüre Wärmepumpe</a> – VZ NRW (2019)</li>
-                <li><a href="https://www.verbraucherzentrale-rlp.de/energie/20-prozent-weniger-heizenergie-nr8-heizung-warten-und-einstellen-82617" target="_blank" rel="noreferrer noopener">VZ Rheinland-Pfalz: Heizung warten</a> – VZ Rheinland-Pfalz (2024)</li>
-                <li><a href="https://www.dein-heizungsbauer.de/ratgeber/wartung/wartungsvertrag-heizung/" target="_blank" rel="noreferrer noopener">Ratgeber: Wartungsvertrag Heizung</a> – dein-heizungsbauer.de (2025)</li>
-                <li><a href="https://www.verbraucherzentrale-rlp.de/sites/default/files/2023-07/230713_energieverbrauchskennwert_formular_ausfullbar_01_vzrp.pdf" target="_blank" rel="noreferrer noopener">VZ RLP: 1 l Heizöl ≈ 10 kWh</a> – VZ Rheinland-Pfalz (2023)</li>
+                <li><a href="https://www.verbraucherzentrale-saarland.de/pressemeldungen/energie/kostenfalle-wartung-der-waermepumpe-95576" target="_blank" rel="noreferrer noopener" title="Verbraucherzentrale Saarland PM 'Kostenfalle Wartung der Waermepumpe' (2024) - Abschnitt Servicevertraege beschreibt 200-400 EUR jaehrliche Wartungspauschalen.">VZ Saarland: Wartung Wärmepumpe</a> – VZ Saarland (2024)</li>
+                <li><a href="https://www.verbraucherzentrale.nrw/sites/default/files/2019-09/brosch%C3%BCre-w%C3%A4rmepumpe-haus-kosten-f%C3%B6rderung.pdf" target="_blank" rel="noreferrer noopener" title="Verbraucherzentrale NRW Broschuere 'Waermepumpe im Haus' (2019) - Seite 18 Abschnitt Wartung benennt Pumpenersatz nach rund 12-15 Jahren.">VZ NRW: Broschüre Wärmepumpe</a> – VZ NRW (2019)</li>
+                <li><a href="https://www.verbraucherzentrale-rlp.de/energie/20-prozent-weniger-heizenergie-nr8-heizung-warten-und-einstellen-82617" target="_blank" rel="noreferrer noopener" title="Verbraucherzentrale RLP Ratgeber 'Heizung warten und einstellen' (2024) - Abschnitt Wartungskosten nennt ca. 200-300 EUR pro Jahr fuer Ölgeraete.">VZ Rheinland-Pfalz: Heizung warten</a> – VZ Rheinland-Pfalz (2024)</li>
+                <li><a href="https://www.dein-heizungsbauer.de/ratgeber/wartung/wartungsvertrag-heizung/" target="_blank" rel="noreferrer noopener" title="Dein-Heizungsbauer Leitfaden Wartungsvertrag Heizung (2024) - section Kostenuebersicht nennt Investitionsrahmen von etwa 12.000-18.000 EUR fuer neue Oelheizungen inkl. Montage.">Ratgeber: Wartungsvertrag Heizung</a> – dein-heizungsbauer.de (2025)</li>
+                <li><a href="https://www.verbraucherzentrale-rlp.de/sites/default/files/2023-07/230713_energieverbrauchskennwert_formular_ausfullbar_01_vzrp.pdf" target="_blank" rel="noreferrer noopener" title="Verbraucherzentrale RLP Energieverbrauchskennwert-Formular (07/2023), Blatt 1 nennt typische EFH-Bedarfe von 1.000–50.000 kWh.">VZ RLP: 1 l Heizöl ≈ 10 kWh</a> – VZ Rheinland-Pfalz (2023)</li>
                 <li><a href="https://energieshop.totalenergies.de/aktuelles/detail/heizwert-und-brennwert-von-heizoel/" target="_blank" rel="noreferrer noopener">TotalEnergies: Heizwert/Brennwert Heizöl</a> – TotalEnergies (2025)</li>
-                <li><a href="https://www.tecson.de/de/heizoelpreise.html" target="_blank" rel="noreferrer noopener">Tecson: Heizölpreise (Zeitreihe)</a> – Tecson (2025)</li>
+                <li><a href="https://www.tecson.de/de/heizoelpreise.html" target="_blank" rel="noreferrer noopener" title="Tecson Heizölpreisreport - chart Endkundenpreise Deutschland (laufend) shows 1.20-1.95 EUR je Liter plus ETS2 surcharges, which we map to high/mid/low paths.">Tecson: Heizölpreise (Zeitreihe)</a> – Tecson (2025)</li>
                 <li><a href="https://www.esyoil.com/" target="_blank" rel="noreferrer noopener">esyoil: Preisvergleich Heizöl</a> – esyoil (2025)</li>
                 <li><a href="https://www.morgenpost.de/wirtschaft/article409773680/heizoelpreise-aktuell-heute-21-august-2025-durchschnitt-heizoel-kaufen-heizung.html" target="_blank" rel="noreferrer noopener">Berliner Morgenpost: Heizölpreise 2025</a> – Berliner Morgenpost (2025)</li>
                 <li><a href="https://www.bdew.de/presse/pressemappen/strompreis/" target="_blank" rel="noreferrer noopener">BDEW: Pressematerial Strompreis</a> – BDEW (2025)</li>
                 <li><a href="https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-7/" target="_blank" rel="noreferrer noopener">IPCC AR6 WG1 Kapitel 7</a> – IPCC (2021)</li>
-                <li><a href="https://www.heizung.de/ratgeber/diverses/normnutzungsgrad-effizientes-heizen-im-blick.html" target="_blank" rel="noreferrer noopener">heizung.de: Norm-Nutzungsgrad</a> – heizung.de (2025)</li>
-                <li><a href="https://www.umweltbundesamt.de/publikationen/heizungsanlagen-im-bestand" target="_blank" rel="noreferrer noopener">UBA: Heizungsanlagen im Bestand</a> – Umweltbundesamt (2022)</li>
-                <li><a href="https://www.umweltbundesamt.de/sites/default/files/medien/384/bilder/dateien/13_tab_jahresnutzungsgrade-heizsysteme-phh_2018-02-14.pdf" target="_blank" rel="noreferrer noopener">UBA: Jahresnutzungsgrade Tabelle</a> – Umweltbundesamt (2012)</li>
-                <li><a href="https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/Monitoringberichte/start.html" target="_blank" rel="noreferrer noopener">BNetzA: Monitoringberichte – Portal</a> – Bundesnetzagentur (2024)</li>
+                <li><a href="https://www.heizung.de/ratgeber/diverses/normnutzungsgrad-effizientes-heizen-im-blick.html" target="_blank" rel="noreferrer noopener" title="Heizung.de Fachartikel 'Normnutzungsgrad - effizientes Heizen' (2023) - Abschnitt Oel-Brennwertgeraete listet Eta 0.85-0.92, weshalb wir 0.88 vorbelegen.">heizung.de: Norm-Nutzungsgrad</a> – heizung.de (2025)</li>
+                <li><a href="https://www.umweltbundesamt.de/publikationen/heizungsanlagen-im-bestand" target="_blank" rel="noreferrer noopener" title="UBA study Heizungsanlagen im Bestand (2019) - chapter 3 and tables 6-7 cite 20-30 year technical lifetimes for boilers and oil tanks, matching our horizon defaults.">UBA: Heizungsanlagen im Bestand</a> – Umweltbundesamt (2022)</li>
+                <li><a href="https://www.umweltbundesamt.de/sites/default/files/medien/384/bilder/dateien/13_tab_jahresnutzungsgrade-heizsysteme-phh_2018-02-14.pdf" target="_blank" rel="noreferrer noopener" title="UBA Tabellenblatt 'Jahresnutzungsgrade Heizsysteme' (2018) - Tabelle 13 fuehrt typische Lebensdauern von 15-25 Jahren fuer Niedertemperatur- und Brennwertkessel auf.">UBA: Jahresnutzungsgrade Tabelle</a> – Umweltbundesamt (2012)</li>
+                <li><a href="https://www.bundesnetzagentur.de/DE/Fachthemen/ElektrizitaetundGas/Monitoringberichte/start.html" target="_blank" rel="noreferrer noopener" title="BNetzA/BKartA Monitoringbericht Energie 2024 - chapter 7.2 lists real WACC assumptions of roughly 1.5-3.0 percent; we set 2 percent as midpoint.">BNetzA: Monitoringberichte – Portal</a> – Bundesnetzagentur (2024)</li>
                 <li><a href="https://www.smard.de/page/home/topic-article/444/217350/monitoringerhebung-2025" target="_blank" rel="noreferrer noopener">SMARD: Monitoringerhebung 2025</a> – SMARD/BNetzA (2025)</li>
                 <li><a href="https://www.reuters.com/markets/europe/analysts-expect-eu-carbon-prices-soar-by-2027-2024-10-18/" target="_blank" rel="noreferrer noopener">Reuters: Analysten ETS-Preis 2027</a> – Reuters (2024)</li>
-                <li><a href="https://www.bundeswirtschaftsministerium.de/Redaktion/DE/FAQ/Energiewende/faq-zum-monitoringbericht-zur-energiewende-sept-2025.html" target="_blank" rel="noreferrer noopener">BMWK: Monitoringbericht FAQ 2025</a> – BMWK (2025)</li>
+                <li><a href="https://www.bundeswirtschaftsministerium.de/Redaktion/DE/FAQ/Energiewende/faq-zum-monitoringbericht-zur-energiewende-sept-2025.html" target="_blank" rel="noreferrer noopener" title="BMWK FAQ zum Monitoringbericht (09/2025) erläutert den offiziellen Startfensterrahmen 2025–2030.">BMWK: Monitoringbericht FAQ 2025</a> – BMWK (2025)</li>
                 <li><a href="https://www.chartjs.org/docs/latest/" target="_blank" rel="noreferrer noopener">Chart.js – Dokumentation</a> – Chart.js (2025)</li>
               </ul>
             </article>
@@ -1250,6 +1269,10 @@
       form: document.getElementById("inputForm"),
       heatDemandSlider: document.getElementById("heatDemand"),
       heatDemandInput: document.getElementById("heatDemandValue"),
+      heatDemandProxyToggle: document.getElementById("heatDemandProxyToggle"),
+      oilProxyFields: document.getElementById("oilProxyFields"),
+      oilProxyLiters: document.getElementById("oilProxyLiters"),
+      oilProxyEfficiency: document.getElementById("oilProxyEfficiency"),
       flowTempButtons: document.querySelectorAll('[data-temp]'),
       flowTempInput: document.getElementById("flowTemp"),
       backupShare: document.getElementById("backupShare"),
@@ -1299,6 +1322,42 @@
         exports: document.getElementById("checkExports"),
       },
     };
+
+    const HEAT_DEMAND_MIN = 1000;
+    const HEAT_DEMAND_MAX = 50000;
+    const DEFAULT_HEAT_DEMAND = 16000;
+    const ENERGY_CONTENT_PER_LITER = 10;
+
+    const setHeatDemandInputs = (value) => {
+      const numeric = Number(value);
+      const clamped = clamp(Number.isFinite(numeric) ? numeric : DEFAULT_HEAT_DEMAND, HEAT_DEMAND_MIN, HEAT_DEMAND_MAX);
+      dom.heatDemandSlider.value = clamped;
+      dom.heatDemandInput.value = clamped;
+      return clamped;
+    };
+
+    const updateHeatDemandProxyUi = (enabled) => {
+      dom.oilProxyFields.hidden = !enabled;
+      dom.heatDemandSlider.disabled = enabled;
+      dom.heatDemandInput.disabled = enabled;
+    };
+
+    const computeHeatDemandFromOil = () => {
+      const liters = Number(dom.oilProxyLiters.value);
+      const efficiency = Number(dom.oilProxyEfficiency.value);
+      if (!Number.isFinite(liters) || liters <= 0) return null;
+      if (!Number.isFinite(efficiency) || efficiency <= 0) return null;
+      return clamp(liters * ENERGY_CONTENT_PER_LITER * efficiency, HEAT_DEMAND_MIN, HEAT_DEMAND_MAX);
+    };
+
+    function applyHeatDemandProxy(triggerUpdate = true) {
+      const computed = computeHeatDemandFromOil();
+      if (computed == null) return;
+      setHeatDemandInputs(computed);
+      if (triggerUpdate) {
+        updateModel();
+      }
+    }
 
     /**
      * Charts -------------------------------------------------------------------------------
@@ -1410,6 +1469,9 @@
     const defaultState = {
       startYear: 2025,
       heatDemand: 16000,
+      useOilProxy: false,
+      oilProxyLiters: 2000,
+      oilProxyEfficiency: 0.82,
       flowTemp: 45,
       backupShare: 5,
       horizon: 20,
@@ -1456,12 +1518,15 @@
     };
 
     const state = loadState();
+    let manualHeatDemandValue = state.heatDemand;
     dom.selfCheck.inputs.checked = true;
 
     const bindStateToUi = () => {
       dom.form.startYear.value = state.startYear;
-      dom.heatDemandSlider.value = state.heatDemand;
-      dom.heatDemandInput.value = state.heatDemand;
+      setHeatDemandInputs(state.heatDemand);
+      dom.heatDemandProxyToggle.checked = state.useOilProxy;
+      dom.oilProxyLiters.value = state.oilProxyLiters;
+      dom.oilProxyEfficiency.value = state.oilProxyEfficiency;
       dom.flowTempInput.value = state.flowTemp;
       dom.backupShare.value = state.backupShare;
       dom.horizon.value = state.horizon;
@@ -1494,11 +1559,19 @@
       dom.co2UploadWrapper.hidden = state.co2Path !== "custom";
       dom.gridUploadWrapper.hidden = state.gridEfMode !== "customCsv";
       dom.inflationRateWrapper.hidden = !state.inflationMode;
+      updateHeatDemandProxyUi(state.useOilProxy);
+      if (state.useOilProxy) {
+        applyHeatDemandProxy(false);
+      }
+      manualHeatDemandValue = state.heatDemand;
     };
 
     const collectState = () => ({
       startYear: Number(dom.form.startYear.value),
       heatDemand: Number(dom.heatDemandInput.value),
+      useOilProxy: dom.heatDemandProxyToggle.checked,
+      oilProxyLiters: Number(dom.oilProxyLiters.value),
+      oilProxyEfficiency: Number(dom.oilProxyEfficiency.value),
       flowTemp: Number(dom.flowTempInput.value),
       backupShare: Number(dom.backupShare.value),
       horizon: Number(dom.horizon.value),
@@ -1947,14 +2020,40 @@ Inflationsrate;${assumptions.inflationRate.toFixed(2)} %
     }, 400);
 
     dom.heatDemandSlider.addEventListener("input", (event) => {
-      dom.heatDemandInput.value = event.target.value;
+      if (dom.heatDemandProxyToggle.checked) return;
+      const clamped = setHeatDemandInputs(event.target.value);
+      manualHeatDemandValue = clamped;
       updateModel();
     });
 
     dom.heatDemandInput.addEventListener("input", (event) => {
-      const value = clamp(Number(event.target.value), 1000, 50000);
-      dom.heatDemandSlider.value = value;
+      if (dom.heatDemandProxyToggle.checked) return;
+      const clamped = setHeatDemandInputs(event.target.value);
+      manualHeatDemandValue = clamped;
       updateModel();
+    });
+
+    dom.heatDemandProxyToggle.addEventListener("change", () => {
+      const enabled = dom.heatDemandProxyToggle.checked;
+      updateHeatDemandProxyUi(enabled);
+      if (enabled) {
+        manualHeatDemandValue = Number(dom.heatDemandInput.value) || manualHeatDemandValue;
+        applyHeatDemandProxy(true);
+      } else {
+        const restored = setHeatDemandInputs(manualHeatDemandValue);
+        manualHeatDemandValue = restored;
+        updateModel();
+      }
+    });
+
+    dom.oilProxyLiters.addEventListener("input", () => {
+      if (!dom.heatDemandProxyToggle.checked) return;
+      applyHeatDemandProxy(true);
+    });
+
+    dom.oilProxyEfficiency.addEventListener("input", () => {
+      if (!dom.heatDemandProxyToggle.checked) return;
+      applyHeatDemandProxy(true);
     });
 
     dom.flowTempButtons.forEach((button) => {
@@ -2024,8 +2123,9 @@ Inflationsrate;${assumptions.inflationRate.toFixed(2)} %
     });
 
 
+    const selfManagedInputs = new Set(["heatDemand", "heatDemandValue", "heatDemandProxyToggle", "oilProxyLiters", "oilProxyEfficiency"]);
     dom.form.addEventListener("input", (event) => {
-      if (["heatDemand"].includes(event.target.id)) return;
+      if (selfManagedInputs.has(event.target.id)) return;
       updateModel();
     });
 
