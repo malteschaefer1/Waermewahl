@@ -379,10 +379,44 @@
       border-radius: 16px;
       border: 1px solid var(--border);
       padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      max-height: 34rem;
+      overflow: hidden;
     }
 
     .doc-section h2 {
       margin-top: 0;
+    }
+
+    .doc-section details {
+      flex: 1 1 auto;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #documentation {
+      flex: 1 1 auto;
+      max-height: 24rem;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+    }
+
+    #documentation::-webkit-scrollbar {
+      width: 0.4rem;
+    }
+
+    #documentation::-webkit-scrollbar-thumb {
+      background: var(--accent-muted);
+      border-radius: 999px;
+    }
+
+    .doc-scroll-hint {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin: 0;
     }
 
     .indicator {
@@ -572,6 +606,20 @@
     @media (max-width: 900px) {
       .sources-list {
         columns: 1;
+      }
+
+      .doc-section {
+        max-height: none;
+      }
+
+      .doc-section details {
+        overflow: visible;
+      }
+
+      #documentation {
+        max-height: none;
+        overflow: visible;
+        padding-right: 0;
       }
     }
   </style>
@@ -911,8 +959,9 @@
         </details>
       </div>
       <section class="doc-section">
-        <details open>
+        <details>
           <summary>Dokumentation &amp; Annahmen</summary>
+          <p class="doc-scroll-hint">Umfangreiche Langfassung – scrolle in diesem Bereich, um alle Einträge zu sehen.</p>
           <div class="stack mt-2" id="documentation">
             <article>
               <h3>Formeln &amp; Vorgehen</h3>
