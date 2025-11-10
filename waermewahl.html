@@ -240,6 +240,57 @@
       transform: translateX(1rem);
     }
 
+    details.proxy-disclosure {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--card-bg);
+      padding: 0.75rem 1rem;
+    }
+
+    details.proxy-disclosure summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      font-weight: 600;
+    }
+
+    details.proxy-disclosure[open] {
+      margin-bottom: 0;
+    }
+
+    .proxy-chevron {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s, border-color 0.2s, background 0.2s;
+      flex-shrink: 0;
+    }
+
+    .proxy-chevron::before {
+      content: "";
+      border: solid var(--text-muted);
+      border-width: 0 2px 2px 0;
+      display: inline-block;
+      padding: 0.25rem;
+      transform: rotate(45deg);
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    details.proxy-disclosure[open] .proxy-chevron {
+      border-color: var(--accent);
+      background: rgba(23, 105, 170, 0.08);
+    }
+
+    details.proxy-disclosure[open] .proxy-chevron::before {
+      transform: rotate(225deg);
+      border-color: var(--accent);
+    }
+
     details {
       border: 1px dashed var(--border);
       border-radius: 12px;
@@ -460,6 +511,17 @@
       color: var(--text-muted);
     }
 
+    .capex-opex-note {
+      display: inline-block;
+      width: 100%;
+      font-size: 0.95rem;
+      color: var(--text);
+      background: rgba(23, 105, 170, 0.08);
+      border: 1px solid rgba(23, 105, 170, 0.25);
+      border-radius: 10px;
+      padding: 0.6rem 0.75rem;
+    }
+
     .inline-note {
       display: block;
       font-size: 0.85rem;
@@ -640,9 +702,7 @@
   <header>
     <h1>Wärmewahl: Öl vs. Wärmepumpe – Kosten &amp; Klima</h1>
     <p>
-      Dieses interaktive Modell vergleicht Investitions- und Betriebskosten sowie Emissionen einer
-      Ölheizung mit einer Luft-Wasser-Wärmepumpe für Einfamilienhäuser. Alle Annahmen sind editierbar und
-      mit Quellen hinterlegt – die Ergebnisse zeigen deterministische Zeitreihen für beide Technologien.
+      Dieses interaktive Modell vergleicht Investitions- und Betriebskosten sowie Emissionen einer Ölheizung mit einer Luft-Wasser-Wärmepumpe für Einfamilienhäuser. Alle Annahmen sind editierbar und mit Quellen hinterlegt – die Ergebnisse zeigen deterministische Zeitreihen für beide Technologien.
     </p>
   </header>
   <main>
@@ -676,28 +736,30 @@
             </div>
             <span id="heatDemandHelp" class="helper-text">Inklusive Raumwärme und Warmwasser.</span>
             <span class="inline-note">Wenn dir dein Energieberater keinen Wert genannt hat, kannst du den Bedarf aus deinem Heizölverbrauch schätzen.</span>
-            <label class="toggle mt-2" for="heatDemandProxyToggle">
-              <input type="checkbox" id="heatDemandProxyToggle">
-              <span>Ich kenne meinen Nutzwärmebedarf nicht – über Ölverbrauch berechnen</span>
-            </label>
-            <div class="stack mt-2" id="oilProxyFields" hidden>
-              <div class="input-inline">
-                <label for="oilProxyLiters" class="sr-only">Ölverbrauch (Liter/Jahr)</label>
-                <input type="number" id="oilProxyLiters" min="500" max="10000" step="50" value="2000">
-                <span class="helper-text">Liter/Jahr</span>
+            <details id="heatDemandProxyDisclosure" class="proxy-disclosure mt-2">
+              <summary class="proxy-summary">
+                <span>Ich kenne meinen Nutzwärmebedarf nicht – über Ölverbrauch berechnen</span>
+                <span class="proxy-chevron" aria-hidden="true"></span>
+              </summary>
+              <div class="stack mt-2" id="oilProxyFields">
+                <div class="input-inline">
+                  <label for="oilProxyLiters" class="sr-only">Ölverbrauch (Liter/Jahr)</label>
+                  <input type="number" id="oilProxyLiters" min="500" max="10000" step="50" value="2000">
+                  <span class="helper-text">Liter/Jahr</span>
+                </div>
+                <div class="input-inline">
+                  <label for="oilProxyEfficiency" class="sr-only">Effizienz Altanlage (η)</label>
+                  <input type="number" id="oilProxyEfficiency" min="0.6" max="0.95" step="0.01" value="0.82">
+                  <span class="helper-text">η Altanlage</span>
+                </div>
+                <p class="helper-text">
+                  Formel: Nutzwärme = Liter × 10&nbsp;kWh/l × η. Heizöl EL liefert rund 10&nbsp;kWh/l laut
+                  <a href="https://www.umweltbundesamt.de/sites/default/files/medien/1968/publikationen/co2-emissionsfaktoren_fur_fossile_brennstoffe_korrektur.pdf" target="_blank" rel="noreferrer noopener" title="UBA Emissionsfaktoren für fossile Brennstoffe (2016), Tabelle 2: Heizöl EL mit rund 10 kWh/l.">UBA Emissionsfaktoren 2016</a>,
+                  typische Altanlagen erzielen 0,75–0,85 laut
+                  <a href="https://www.heizung.de/ratgeber/diverses/normnutzungsgrad-effizientes-heizen-im-blick.html" target="_blank" rel="noreferrer noopener" title="heizung.de-Artikel „Normnutzungsgrad“ (2023) nennt Öl-Brennwertgeräte mit η 0,85–0,92 und Abschläge für ältere Technik.">heizung.de (2023)</a>.
+                </p>
               </div>
-              <div class="input-inline">
-                <label for="oilProxyEfficiency" class="sr-only">Effizienz Altanlage (η)</label>
-                <input type="number" id="oilProxyEfficiency" min="0.6" max="0.95" step="0.01" value="0.82">
-                <span class="helper-text">η Altanlage</span>
-              </div>
-              <p class="helper-text">
-                Formel: Nutzwärme = Liter × 10&nbsp;kWh/l × η. Heizöl EL liefert rund 10&nbsp;kWh/l laut
-                <a href="https://www.umweltbundesamt.de/sites/default/files/medien/1968/publikationen/co2-emissionsfaktoren_fur_fossile_brennstoffe_korrektur.pdf" target="_blank" rel="noreferrer noopener" title="UBA Emissionsfaktoren für fossile Brennstoffe (2016), Tabelle 2: Heizöl EL mit rund 10 kWh/l.">UBA Emissionsfaktoren 2016</a>,
-                typische Altanlagen erzielen 0,75–0,85 laut
-                <a href="https://www.heizung.de/ratgeber/diverses/normnutzungsgrad-effizientes-heizen-im-blick.html" target="_blank" rel="noreferrer noopener" title="heizung.de-Artikel „Normnutzungsgrad“ (2023) nennt Öl-Brennwertgeräte mit η 0,85–0,92 und Abschläge für ältere Technik.">heizung.de (2023)</a>.
-              </p>
-            </div>
+            </details>
           </div>
           <div class="input-group">
             <label for="flowTemp">Vorlauftemperatur
@@ -738,16 +800,16 @@
             </label>
             <div role="radiogroup" aria-describedby="electricityScenarioHelp" class="stack">
               <label class="toggle">
-                <input type="radio" name="electricityScenario" value="cheap" checked>
-                <span>Günstiger Strom / Teures Öl</span>
+                <input type="radio" name="electricityScenario" value="cheap" data-scenario="cheap" checked>
+                <span>Günstig</span>
               </label>
               <label class="toggle">
-                <input type="radio" name="electricityScenario" value="base">
+                <input type="radio" name="electricityScenario" value="base" data-scenario="base">
                 <span>Mittel</span>
               </label>
               <label class="toggle">
-                <input type="radio" name="electricityScenario" value="expensive">
-                <span>Teurer Strom / Günstiges Öl</span>
+                <input type="radio" name="electricityScenario" value="expensive" data-scenario="expensive">
+                <span>Teuer</span>
               </label>
             </div>
             <span id="electricityScenarioHelp" class="helper-text">Pfad für Haushaltsstrompreise (brutto, €/kWh).</span>
@@ -758,16 +820,16 @@
             </label>
             <div role="radiogroup" aria-describedby="oilScenarioHelp" class="stack">
               <label class="toggle">
-                <input type="radio" name="oilScenario" value="high">
-                <span>Hoch</span>
+                <input type="radio" name="oilScenario" value="oil-cheap" data-scenario="cheap">
+                <span>Günstig</span>
               </label>
               <label class="toggle">
-                <input type="radio" name="oilScenario" value="mid" checked>
+                <input type="radio" name="oilScenario" value="oil-base" data-scenario="base" checked>
                 <span>Mittel</span>
               </label>
               <label class="toggle">
-                <input type="radio" name="oilScenario" value="low">
-                <span>Niedrig</span>
+                <input type="radio" name="oilScenario" value="oil-expensive" data-scenario="expensive">
+                <span>Teuer</span>
               </label>
             </div>
             <span id="oilScenarioHelp" class="helper-text">Pfad für Heizöl-Endkundenpreise (€/l, inkl. Energiesteuer).</span>
@@ -914,17 +976,16 @@
         </div>
         <div class="toolbar mt-2">
           <button type="button" id="exportCsv">CSV exportieren</button>
-          <button type="button" data-export-chart="cost" class="export-chart">Kosten-Chart als PNG</button>
-          <button type="button" data-export-chart="emission" class="export-chart">Emissions-Chart als PNG</button>
+          <button type="button" data-export-chart="combined" class="export-chart">Kosten- &amp; Emissions-Chart als PNG</button>
         </div>
         <div class="cards-grid mt-2" id="summaryCards">
           <article class="card" aria-live="polite">
-            <h3>Kumulierte Kosten (undiskontiert) – Differenz</h3>
+            <h3>Kumulierte Kostendifferenz (nominal)</h3>
             <strong id="cardCostDiff">–</strong>
             <span class="delta" id="cardCostAbsolute">Öl: – • WP: –</span>
           </article>
           <article class="card">
-            <h3>Kumulierte Kosten (NPV)</h3>
+            <h3>Kumulierte Kostendifferenz (real)</h3>
             <strong id="cardNpvDiff">–</strong>
             <span class="delta" id="cardNpvAbsolute">Öl: – • WP: –</span>
           </article>
@@ -934,29 +995,24 @@
             <span class="delta" id="cardEmissionAbsolute">Öl: – • WP: –</span>
           </article>
           <article class="card">
-            <h3>CAPEX vs. OPEX Anteil</h3>
+            <h3>Anteil Investitionskosten</h3>
             <strong id="cardCapexOpex">–</strong>
-            <span class="delta" id="cardCapexOpexMeta">Öl / WP (siehe Mini-Charts)</span>
+            <span class="delta" id="cardCapexOpexMeta">Öl / WP –</span>
           </article>
         </div>
         <div class="charts-grid mt-3">
           <div class="chart-container">
-            <h3>Kumulative Kosten <span class="chart-legend-hint">€/Jahr</span></h3>
-            <canvas id="costChart" aria-label="Kostenvergleich" role="img"></canvas>
-          </div>
-          <div class="chart-container">
-            <h3>Kumulative Emissionen <span class="chart-legend-hint">t CO₂e/Jahr</span></h3>
-            <canvas id="emissionChart" aria-label="Emissionenvergleich" role="img"></canvas>
+            <h3>Kumulative Kosten (nominal) &amp; Emissionen</h3>
+            <canvas id="combinedChart" aria-label="Kosten- und Emissionsvergleich" role="img"></canvas>
           </div>
         </div>
         <div class="charts-grid mt-3">
           <div class="chart-container">
-            <h3>Öl: CAPEX vs. OPEX</h3>
-            <canvas id="oilBreakdownChart" class="mini-chart"></canvas>
-          </div>
-          <div class="chart-container">
-            <h3>Wärmepumpe: CAPEX vs. OPEX</h3>
-            <canvas id="wpBreakdownChart" class="mini-chart"></canvas>
+            <h3>Investionen (CAPEX) &amp; laufende Kosten (OPEX), nominal</h3>
+            <canvas id="capexOpexChart" class="mini-chart" aria-label="Vergleich CAPEX und OPEX" role="img"></canvas>
+            <p class="capex-opex-note mt-2">
+              CAPEX (Capital Expenditure – Investitionsausgaben) beschreibt alle anfänglichen Investitionen, während OPEX (Operating Expenditure – Betriebskosten) die laufenden Ausgaben für Wartung, Energie und Verbrauch erfasst.
+            </p>
           </div>
         </div>
         <details class="mt-3" open>
@@ -1111,7 +1167,7 @@
     const scenarios = {
       electricity: {
         cheap: {
-          label: "Günstiger Strom / Teures Öl",
+          label: "Günstig",
           comment: "Schneller Netzausbau & sinkende Umlagen",
           data: buildSeries(0.34, -0.02, 0.25),
         },
@@ -1121,26 +1177,26 @@
           data: buildSeries(0.4, -0.01, 0.29),
         },
         expensive: {
-          label: "Teurer Strom / Günstiges Öl",
+          label: "Teuer",
           comment: "Langsame Abgabenentlastung, hohe Börsenpreise",
           data: buildSeries(0.45, 0.015, 0.38),
         },
       },
       oil: {
-        high: {
-          label: "Hoch",
-          comment: "Hohe Weltmarktpreise und rascher ETS2-Anstieg",
-          data: buildSeries(1.45, 0.1, 1.95),
+        cheap: {
+          label: "Günstig",
+          comment: "Entspannung am Ölmarkt, gedämpfter ETS2",
+          data: buildSeries(1.2, -0.02, 1.4),
         },
-        mid: {
+        base: {
           label: "Mittel",
           comment: "Mittlerer Pfad inkl. moderatem CO₂-Aufschlag",
           data: buildSeries(1.35, 0.05, 1.75),
         },
-        low: {
-          label: "Niedrig",
-          comment: "Entspannung am Ölmarkt, gedämpfter ETS2",
-          data: buildSeries(1.2, -0.02, 1.4),
+        expensive: {
+          label: "Teuer",
+          comment: "Hohe Weltmarktpreise und rascher ETS2-Anstieg",
+          data: buildSeries(1.45, 0.1, 1.95),
         },
       },
       co2Price: {
@@ -1269,8 +1325,7 @@
       form: document.getElementById("inputForm"),
       heatDemandSlider: document.getElementById("heatDemand"),
       heatDemandInput: document.getElementById("heatDemandValue"),
-      heatDemandProxyToggle: document.getElementById("heatDemandProxyToggle"),
-      oilProxyFields: document.getElementById("oilProxyFields"),
+      heatDemandProxyDisclosure: document.getElementById("heatDemandProxyDisclosure"),
       oilProxyLiters: document.getElementById("oilProxyLiters"),
       oilProxyEfficiency: document.getElementById("oilProxyEfficiency"),
       flowTempButtons: document.querySelectorAll('[data-temp]'),
@@ -1336,8 +1391,13 @@
       return clamped;
     };
 
+    const getScenarioValue = (groupName, fallback) => {
+      const selected = dom.form.querySelector(`input[name="${groupName}"]:checked`);
+      if (!selected) return fallback;
+      return selected.dataset.scenario ?? selected.value ?? fallback;
+    };
+
     const updateHeatDemandProxyUi = (enabled) => {
-      dom.oilProxyFields.hidden = !enabled;
       dom.heatDemandSlider.disabled = enabled;
       dom.heatDemandInput.disabled = enabled;
     };
@@ -1362,24 +1422,67 @@
     /**
      * Charts -------------------------------------------------------------------------------
      */
-    let costChart;
-    let emissionChart;
-    let oilBreakdownChart;
-    let wpBreakdownChart;
+    let combinedChart;
+    let capexOpexChart;
 
     const chartPalette = {
       oil: "#b91c1c",
+      oilLight: "#f87171",
       oilBand: "rgba(185, 28, 28, 0.18)",
       wp: "#2563eb",
+      wpLight: "#93c5fd",
       wpBand: "rgba(37, 99, 235, 0.18)",
     };
 
-    const createLineChart = (canvas, title) => {
+    const createCombinedLineChart = (canvas) => {
       return new Chart(canvas, {
         type: "line",
         data: {
           labels: [],
-          datasets: [],
+          datasets: [
+            {
+              label: "Kosten Öl",
+              data: [],
+              borderColor: chartPalette.oil,
+              backgroundColor: "transparent",
+              borderWidth: 2,
+              pointRadius: 0,
+              yAxisID: "yCost",
+              unit: "€",
+            },
+            {
+              label: "Kosten Wärmepumpe",
+              data: [],
+              borderColor: chartPalette.wp,
+              backgroundColor: "transparent",
+              borderWidth: 2,
+              pointRadius: 0,
+              yAxisID: "yCost",
+              unit: "€",
+            },
+            {
+              label: "Emissionen Öl",
+              data: [],
+              borderColor: chartPalette.oilLight,
+              backgroundColor: "transparent",
+              borderDash: [6, 3],
+              borderWidth: 2,
+              pointRadius: 0,
+              yAxisID: "yEmission",
+              unit: "t CO₂e",
+            },
+            {
+              label: "Emissionen Wärmepumpe",
+              data: [],
+              borderColor: chartPalette.wpLight,
+              backgroundColor: "transparent",
+              borderDash: [6, 3],
+              borderWidth: 2,
+              pointRadius: 0,
+              yAxisID: "yEmission",
+              unit: "t CO₂e",
+            },
+          ],
         },
         options: {
           responsive: true,
@@ -1388,17 +1491,31 @@
             mode: "index",
             intersect: false,
           },
+          layout: {
+            padding: {
+              bottom: 20,
+            },
+          },
           scales: {
             x: {
               title: { display: true, text: "Jahr" },
+              ticks: { padding: 10 },
+            },
+            yCost: {
+              type: "linear",
+              position: "left",
+              title: { display: true, text: "€/Jahr" },
+            },
+            yEmission: {
+              type: "linear",
+              position: "right",
+              title: { display: true, text: "t CO₂e/Jahr" },
+              grid: { drawOnChartArea: false },
             },
           },
           plugins: {
             legend: {
               display: true,
-              labels: {
-                filter: (legendItem) => /Median/.test(legendItem.text),
-              },
             },
             tooltip: {
               callbacks: {
@@ -1415,47 +1532,63 @@
       });
     };
 
-    const createBarChart = (canvas, label) => {
-      return new Chart(canvas, {
+    const createCapexOpexChart = (canvas) =>
+      new Chart(canvas, {
         type: "bar",
         data: {
-          labels: ["CAPEX", "OPEX"],
+          labels: ["Öl", "Wärmepumpe"],
           datasets: [
             {
-              label,
+              label: "CAPEX",
               data: [0, 0],
-              backgroundColor: ["rgba(37, 99, 235, 0.65)", "rgba(16, 185, 129, 0.65)"],
+              backgroundColor: [chartPalette.oil, chartPalette.wp],
+              stack: "tech",
+              order: 1,
+            },
+            {
+              label: "OPEX",
+              data: [0, 0],
+              backgroundColor: [chartPalette.oilLight, chartPalette.wpLight],
+              stack: "tech",
+              order: 2,
             },
           ],
         },
         options: {
-          indexAxis: "y",
           responsive: true,
           maintainAspectRatio: false,
+          indexAxis: "y",
+          interaction: {
+            mode: "index",
+            intersect: false,
+          },
           plugins: {
-            legend: { display: false },
+            legend: {
+              position: "bottom",
+            },
             tooltip: {
               callbacks: {
-                label: (ctx) => formatEuro(ctx.parsed.x, 0),
+                label: (ctx) => `${ctx.dataset.label}: ${formatEuro(ctx.parsed.x, 0)}`,
               },
             },
           },
           scales: {
             x: {
+              stacked: true,
               ticks: {
                 callback: (value) => formatEuro(value, 0),
               },
             },
+            y: {
+              stacked: true,
+            },
           },
         },
       });
-    };
 
     const ensureCharts = () => {
-      if (!costChart) costChart = createLineChart(document.getElementById("costChart"), "Kosten");
-      if (!emissionChart) emissionChart = createLineChart(document.getElementById("emissionChart"), "Emissionen");
-      if (!oilBreakdownChart) oilBreakdownChart = createBarChart(document.getElementById("oilBreakdownChart"), "Öl");
-      if (!wpBreakdownChart) wpBreakdownChart = createBarChart(document.getElementById("wpBreakdownChart"), "Wärmepumpe");
+      if (!combinedChart) combinedChart = createCombinedLineChart(document.getElementById("combinedChart"));
+      if (!capexOpexChart) capexOpexChart = createCapexOpexChart(document.getElementById("capexOpexChart"));
       dom.selfCheck.charts.checked = true;
     };
 
@@ -1477,7 +1610,7 @@
       horizon: 20,
       discountRate: 2.0,
       electricityScenario: "cheap",
-      oilScenario: "mid",
+      oilScenario: "base",
       co2Path: "standard",
       subsidy: false,
       capexOil: 14000,
@@ -1509,6 +1642,11 @@
           if (parsed.inflationRate != null && parsed.inflationRate < 0.2) {
             parsed.inflationRate = parseFloat((parsed.inflationRate * 100).toFixed(2));
           }
+          if (parsed.oilScenario) {
+            if (parsed.oilScenario === "low") parsed.oilScenario = "cheap";
+            if (parsed.oilScenario === "mid") parsed.oilScenario = "base";
+            if (parsed.oilScenario === "high") parsed.oilScenario = "expensive";
+          }
           return { ...defaultState, ...parsed };
         }
       } catch (error) {
@@ -1519,12 +1657,15 @@
 
     const state = loadState();
     let manualHeatDemandValue = state.heatDemand;
+    let suppressProxyDisclosureEvent = false;
     dom.selfCheck.inputs.checked = true;
 
     const bindStateToUi = () => {
       dom.form.startYear.value = state.startYear;
       setHeatDemandInputs(state.heatDemand);
-      dom.heatDemandProxyToggle.checked = state.useOilProxy;
+      suppressProxyDisclosureEvent = true;
+      dom.heatDemandProxyDisclosure.open = state.useOilProxy;
+      suppressProxyDisclosureEvent = false;
       dom.oilProxyLiters.value = state.oilProxyLiters;
       dom.oilProxyEfficiency.value = state.oilProxyEfficiency;
       dom.flowTempInput.value = state.flowTemp;
@@ -1546,9 +1687,12 @@
       dom.inflationToggle.checked = state.inflationMode;
       dom.inflationRate.value = state.inflationRate;
 
-      document.querySelector(`input[name="electricityScenario"][value="${state.electricityScenario}"]`).checked = true;
-      document.querySelector(`input[name="oilScenario"][value="${state.oilScenario}"]`).checked = true;
-      document.querySelector(`input[name="co2Path"][value="${state.co2Path}"]`).checked = true;
+      const electricityRadio = document.querySelector(`input[name="electricityScenario"][data-scenario="${state.electricityScenario}"]`);
+      if (electricityRadio) electricityRadio.checked = true;
+      const oilRadio = document.querySelector(`input[name="oilScenario"][data-scenario="${state.oilScenario}"]`);
+      if (oilRadio) oilRadio.checked = true;
+      const co2Radio = document.querySelector(`input[name="co2Path"][value="${state.co2Path}"]`);
+      if (co2Radio) co2Radio.checked = true;
 
       dom.flowTempButtons.forEach((btn) => {
         const pressed = Number(btn.dataset.temp) === Number(state.flowTemp);
@@ -1569,15 +1713,15 @@
     const collectState = () => ({
       startYear: Number(dom.form.startYear.value),
       heatDemand: Number(dom.heatDemandInput.value),
-      useOilProxy: dom.heatDemandProxyToggle.checked,
+      useOilProxy: dom.heatDemandProxyDisclosure.open,
       oilProxyLiters: Number(dom.oilProxyLiters.value),
       oilProxyEfficiency: Number(dom.oilProxyEfficiency.value),
       flowTemp: Number(dom.flowTempInput.value),
       backupShare: Number(dom.backupShare.value),
       horizon: Number(dom.horizon.value),
       discountRate: Number(dom.discountRate.value),
-      electricityScenario: dom.form.querySelector('input[name="electricityScenario"]:checked')?.value ?? state.electricityScenario,
-      oilScenario: dom.form.querySelector('input[name="oilScenario"]:checked')?.value ?? state.oilScenario,
+      electricityScenario: getScenarioValue("electricityScenario", state.electricityScenario),
+      oilScenario: getScenarioValue("oilScenario", state.oilScenario),
       co2Path: dom.form.querySelector('input[name="co2Path"]:checked')?.value ?? state.co2Path,
       subsidy: dom.subsidyToggle.checked,
       capexOil: Number(dom.capexOil.value),
@@ -1847,64 +1991,26 @@
       const wpCapexTotal = sum(deterministic.wp.capex);
       const wpOpexTotal = sum(deterministic.wp.opex);
 
-      dom.cards.capexOpex.textContent = `Öl ${Math.round(100 * computeShare(oilCapexTotal, oilCapexTotal + oilOpexTotal))}% CAPEX • WP ${Math.round(100 * computeShare(wpCapexTotal, wpCapexTotal + wpOpexTotal))}% CAPEX`;
-      dom.cards.capexOpexMeta.textContent = `Gesamt CAPEX Öl ${formatEuro(oilCapexTotal, 0)}, WP ${formatEuro(wpCapexTotal, 0)} – siehe Mini-Charts`;
+      dom.cards.capexOpex.textContent = `Öl ${Math.round(100 * computeShare(oilCapexTotal, oilCapexTotal + oilOpexTotal))}% • WP ${Math.round(100 * computeShare(wpCapexTotal, wpCapexTotal + wpOpexTotal))}% `;
+      dom.cards.capexOpexMeta.textContent = `Gesamt CAPEX: Öl ${formatEuro(oilCapexTotal, 0)} • WP ${formatEuro(wpCapexTotal, 0)}`;
 
-      oilBreakdownChart.data.datasets[0].data = [oilCapexTotal, oilOpexTotal];
-      wpBreakdownChart.data.datasets[0].data = [wpCapexTotal, wpOpexTotal];
-      oilBreakdownChart.update();
-      wpBreakdownChart.update();
+      if (capexOpexChart) {
+        capexOpexChart.data.datasets[0].data = [oilCapexTotal, wpCapexTotal];
+        capexOpexChart.data.datasets[1].data = [oilOpexTotal, wpOpexTotal];
+        capexOpexChart.update();
+      }
       dom.selfCheck.cards.checked = true;
     };
 
     const updateCharts = (deterministic) => {
       const labels = deterministic.years;
-
-      costChart.data.labels = labels;
-      costChart.data.datasets = [
-        {
-          label: "Öl",
-          data: deterministic.oil.cumulative,
-          borderColor: chartPalette.oil,
-          backgroundColor: "transparent",
-          borderWidth: 2,
-          pointRadius: 0,
-          unit: "€",
-        },
-        {
-          label: "Wärmepumpe",
-          data: deterministic.wp.cumulative,
-          borderColor: chartPalette.wp,
-          backgroundColor: "transparent",
-          borderWidth: 2,
-          pointRadius: 0,
-          unit: "€",
-        },
-      ];
-      costChart.update();
-
-      emissionChart.data.labels = labels;
-      emissionChart.data.datasets = [
-        {
-          label: "Öl",
-          data: deterministic.oil.emissions,
-          borderColor: chartPalette.oil,
-          backgroundColor: "transparent",
-          borderWidth: 2,
-          pointRadius: 0,
-          unit: "t",
-        },
-        {
-          label: "Wärmepumpe",
-          data: deterministic.wp.emissions,
-          borderColor: chartPalette.wp,
-          backgroundColor: "transparent",
-          borderWidth: 2,
-          pointRadius: 0,
-          unit: "t",
-        },
-      ];
-      emissionChart.update();
+      if (!combinedChart) return;
+      combinedChart.data.labels = labels;
+      combinedChart.data.datasets[0].data = deterministic.oil.cumulative;
+      combinedChart.data.datasets[1].data = deterministic.wp.cumulative;
+      combinedChart.data.datasets[2].data = deterministic.oil.emissions;
+      combinedChart.data.datasets[3].data = deterministic.wp.emissions;
+      combinedChart.update();
     };
 
     const updateTable = (deterministic) => {
@@ -2020,21 +2126,22 @@ Inflationsrate;${assumptions.inflationRate.toFixed(2)} %
     }, 400);
 
     dom.heatDemandSlider.addEventListener("input", (event) => {
-      if (dom.heatDemandProxyToggle.checked) return;
+      if (dom.heatDemandProxyDisclosure.open) return;
       const clamped = setHeatDemandInputs(event.target.value);
       manualHeatDemandValue = clamped;
       updateModel();
     });
 
     dom.heatDemandInput.addEventListener("input", (event) => {
-      if (dom.heatDemandProxyToggle.checked) return;
+      if (dom.heatDemandProxyDisclosure.open) return;
       const clamped = setHeatDemandInputs(event.target.value);
       manualHeatDemandValue = clamped;
       updateModel();
     });
 
-    dom.heatDemandProxyToggle.addEventListener("change", () => {
-      const enabled = dom.heatDemandProxyToggle.checked;
+    dom.heatDemandProxyDisclosure.addEventListener("toggle", () => {
+      if (suppressProxyDisclosureEvent) return;
+      const enabled = dom.heatDemandProxyDisclosure.open;
       updateHeatDemandProxyUi(enabled);
       if (enabled) {
         manualHeatDemandValue = Number(dom.heatDemandInput.value) || manualHeatDemandValue;
@@ -2047,12 +2154,12 @@ Inflationsrate;${assumptions.inflationRate.toFixed(2)} %
     });
 
     dom.oilProxyLiters.addEventListener("input", () => {
-      if (!dom.heatDemandProxyToggle.checked) return;
+      if (!dom.heatDemandProxyDisclosure.open) return;
       applyHeatDemandProxy(true);
     });
 
     dom.oilProxyEfficiency.addEventListener("input", () => {
-      if (!dom.heatDemandProxyToggle.checked) return;
+      if (!dom.heatDemandProxyDisclosure.open) return;
       applyHeatDemandProxy(true);
     });
 
@@ -2123,7 +2230,7 @@ Inflationsrate;${assumptions.inflationRate.toFixed(2)} %
     });
 
 
-    const selfManagedInputs = new Set(["heatDemand", "heatDemandValue", "heatDemandProxyToggle", "oilProxyLiters", "oilProxyEfficiency"]);
+    const selfManagedInputs = new Set(["heatDemand", "heatDemandValue", "oilProxyLiters", "oilProxyEfficiency"]);
     dom.form.addEventListener("input", (event) => {
       if (selfManagedInputs.has(event.target.id)) return;
       updateModel();
@@ -2139,10 +2246,8 @@ Inflationsrate;${assumptions.inflationRate.toFixed(2)} %
     dom.exportChartButtons.forEach((btn) => {
       btn.addEventListener("click", () => {
         const chartId = btn.dataset.exportChart;
-        if (chartId === "cost") {
-          exportChartAsPng(costChart, "waermewahl_kosten.png");
-        } else {
-          exportChartAsPng(emissionChart, "waermewahl_emissionen.png");
+        if (chartId === "combined" && combinedChart) {
+          exportChartAsPng(combinedChart, "waermewahl_kosten_emissionen.png");
         }
       });
     });
