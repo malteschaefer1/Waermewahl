@@ -2,6 +2,9 @@
 
 Ein interaktives Einseiten-Dashboard, das CAPEX/OPEX, Emissionen und Förderungen einer bestehenden Ölheizung mit einer Luft-Wasser-Wärmepumpe vergleicht. **Das Projekt ist aktuell ein Work-in-Progress:** Datenmodelle, Texte und UI können sich kurzfristig ändern und werden noch validiert.
 
+![Dashboard preview](example.png)
+Fig.: Dashboard Preview
+
 ## Funktionsumfang
 - editierbare Eingaben (Nutzwärmebedarf, COP, Diskontsatz, Förderpfade, Szenarien für Ölpreis, Strompreis, CO₂-Preis, Netzstromfaktor)
 - deterministische Zeitreihen (Kosten, Emissionen, NPV) inklusive CSV-Export und PNG-Export der Diagramme
